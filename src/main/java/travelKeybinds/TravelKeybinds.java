@@ -47,10 +47,10 @@ public class TravelKeybinds {
             return;
         }
         PlayerInventoryManager invManager = client.getPlayer().getInv();
-        Optional<PlayerInventorySlot> recallSlot = invManager.streamSlots(true, true, true)
+        Optional<PlayerInventorySlot> travelSlot = invManager.streamSlots(true, true, true)
                 .filter(new ItemIdSearch(invManager, travelItemIds)).findFirst();
-        if (recallSlot.isPresent()) {
-            client.getPlayer().tryAttack(recallSlot.get(), 0, 0);
+        if (travelSlot.isPresent()) {
+            client.getPlayer().tryAttack(travelSlot.get(), 0, 0);
         } else {
             client.chat.addMessage(Localization.translate("chat", "notravelitems"));
         }
