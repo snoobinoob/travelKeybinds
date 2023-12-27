@@ -1,12 +1,17 @@
 package travelKeybinds;
 
+import necesse.engine.GlobalData;
 import necesse.engine.control.Control;
+import necesse.engine.control.InputEvent;
 import necesse.engine.localization.Localization;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.network.client.Client;
 import necesse.engine.registries.ItemRegistry;
+import necesse.engine.state.MainGame;
 import necesse.inventory.PlayerInventoryManager;
 import necesse.inventory.PlayerInventorySlot;
+
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -20,15 +25,33 @@ public class TravelKeybinds {
     private static Set<Integer> travelItemIds;
 
     public void init() {
-        recallItemIds = Set.of(ItemRegistry.getItemID("recallscroll"),
-                ItemRegistry.getItemID("recallflask"));
-        travelItemIds = Set.of(ItemRegistry.getItemID("travelscroll"));
+        recallItemIds = new HashSet<>();
+        recallItemIds.add(ItemRegistry.getItemID("recallscroll"));
+        recallItemIds.add(ItemRegistry.getItemID("recallflask"));
+        travelItemIds = new HashSet<>();
+        travelItemIds.add(ItemRegistry.getItemID("travelscroll"));
 
-        recallControl = Control.addModControl(new Control(GLFW.GLFW_KEY_H, "recall"));
-        travelControl = Control.addModControl(new Control(-1, "travel"));
+        recallControl = Control.addModControl(new Control(GLFW.GLFW_KEY_H, "recall") {
+            @Override
+            public void activate(InputEvent event) {
+                super.activate(event);
+                if (isPressed()) {
+                    recall(((MainGame)GlobalData.getCurrentState()).getClient());
+                }
+            }
+        });
+        travelControl = Control.addModControl(new Control(-1, "travel") {
+            @Override
+            public void activate(InputEvent event) {
+                super.activate(event);
+                if (isPressed()) {
+                    travel(((MainGame)GlobalData.getCurrentState()).getClient());
+                }
+            }
+        });
     }
 
-    public static void recall(Client client) {
+    private static void recall(Client client) {
         if (client.getPlayer() == null) {
             return;
         }
@@ -42,7 +65,7 @@ public class TravelKeybinds {
         }
     }
 
-    public static void travel(Client client) {
+    private static void travel(Client client) {
         if (client.getPlayer() == null) {
             return;
         }
@@ -57,8 +80,8 @@ public class TravelKeybinds {
     }
 
     private static class ItemIdSearch implements Predicate<PlayerInventorySlot> {
-        private PlayerInventoryManager invManager;
-        private Set<Integer> itemIds;
+        private final PlayerInventoryManager invManager;
+        private final Set<Integer> itemIds;
 
         private ItemIdSearch(PlayerInventoryManager invManager, Set<Integer> itemIds) {
             this.invManager = invManager;
