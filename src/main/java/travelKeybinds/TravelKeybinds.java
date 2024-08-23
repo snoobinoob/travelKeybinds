@@ -1,8 +1,8 @@
 package travelKeybinds;
 
 import necesse.engine.GlobalData;
-import necesse.engine.control.Control;
-import necesse.engine.control.InputEvent;
+import necesse.engine.input.Control;
+import necesse.engine.input.InputEvent;
 import necesse.engine.localization.Localization;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.network.client.Client;
@@ -56,7 +56,7 @@ public class TravelKeybinds {
             return;
         }
         PlayerInventoryManager invManager = client.getPlayer().getInv();
-        Optional<PlayerInventorySlot> recallSlot = invManager.streamSlots(true, true, true)
+        Optional<PlayerInventorySlot> recallSlot = invManager.streamPlayerSlots(false, true, true, true)
                 .filter(new ItemIdSearch(invManager, recallItemIds)).findFirst();
         if (recallSlot.isPresent()) {
             client.getPlayer().tryAttack(recallSlot.get(), 0, 0);
@@ -70,7 +70,7 @@ public class TravelKeybinds {
             return;
         }
         PlayerInventoryManager invManager = client.getPlayer().getInv();
-        Optional<PlayerInventorySlot> travelSlot = invManager.streamSlots(true, true, true)
+        Optional<PlayerInventorySlot> travelSlot = invManager.streamPlayerSlots(false, true, true, true)
                 .filter(new ItemIdSearch(invManager, travelItemIds)).findFirst();
         if (travelSlot.isPresent()) {
             client.getPlayer().tryAttack(travelSlot.get(), 0, 0);
