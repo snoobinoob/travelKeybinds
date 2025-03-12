@@ -31,7 +31,7 @@ public class TravelKeybinds {
         travelItemIds = new HashSet<>();
         travelItemIds.add(ItemRegistry.getItemID("travelscroll"));
 
-        recallControl = Control.addModControl(new Control(GLFW.GLFW_KEY_H, "recall") {
+        recallControl = Control.addModControl(new Control(-1, "recall") {
             @Override
             public void activate(InputEvent event) {
                 super.activate(event);
