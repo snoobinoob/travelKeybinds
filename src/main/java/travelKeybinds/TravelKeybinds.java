@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
-import org.lwjgl.glfw.GLFW;
 
 @ModEntry
 public class TravelKeybinds {
@@ -29,7 +28,7 @@ public class TravelKeybinds {
         recallItemIds.add(ItemRegistry.getItemID("recallscroll"));
         recallItemIds.add(ItemRegistry.getItemID("recallflask"));
         travelItemIds = new HashSet<>();
-        travelItemIds.add(ItemRegistry.getItemID("travelscroll"));
+        travelItemIds.add(ItemRegistry.getItemID("teleportationscroll"));
 
         recallControl = Control.addModControl(new Control(-1, "recall") {
             @Override

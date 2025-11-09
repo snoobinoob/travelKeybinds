@@ -1,7 +1,7 @@
 [controls]
 recall=Recall
-travel=Travel
+travel=Teleport
 
 [chat]
 norecallitems=You have no recall items
-notravelitems=You have no travel items
+notravelitems=You have no teleport items
